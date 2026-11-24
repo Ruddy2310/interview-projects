@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flowly — Team Workflow Software</title>
+<style>
+:root{--bg:#f5f6fa;--card:#fff;--ink:#14161f;--mute:#667085;--line:#e4e7ee;--acc:#4f46e5;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--soft:#eef0ff}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1117;--card:#181b24;--ink:#eceef5;--mute:#98a2b3;--line:#2a2f3c;--soft:#22264a}}
+*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,"Segoe UI",sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:24px 20px}h1{font-size:26px}.sub{color:var(--mute)}
+input,select,textarea,button{font:inherit;color:inherit}
+input,select,textarea{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);width:100%}
+button{cursor:pointer;border:0;border-radius:10px;padding:10px 16px;background:var(--acc);color:#fff;font-weight:600}
+button.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}.grid{display:grid;gap:14px}
+.pill{font-size:12px;padding:2px 10px;border-radius:99px;background:var(--soft);color:var(--acc);font-weight:600;display:inline-block}
+label{font-size:13px;color:var(--mute);display:block;margin-bottom:4px}
+@media(max-width:700px){.wrap{padding:16px 14px}}
+body{scroll-behavior:smooth}header{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);z-index:5}
+nav{max-width:1040px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}nav a{text-decoration:none;color:var(--mute);margin-left:22px}nav a:hover{color:var(--ink)}nav .logo{color:var(--ink);font-weight:800;font-size:19px;margin:0}
+#menu{display:none;background:none;color:var(--ink);border:1px solid var(--line)}
+.hero{text-align:center;padding:72px 0 40px}.hero h1{font-size:clamp(34px,6vw,60px);line-height:1.1;letter-spacing:-.02em;max-width:760px;margin:0 auto}.hero h1 em{font-style:normal;color:var(--acc)}.hero p{max-width:520px;margin:18px auto 26px;color:var(--mute);font-size:18px}
+.mock{margin:44px auto 0;max-width:720px;padding:16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.col{background:var(--bg);border-radius:12px;padding:10px;min-height:150px}.col i{display:block;height:34px;border-radius:8px;background:var(--soft);margin-top:8px}.col i:nth-child(odd){background:var(--acc);opacity:.85}
+h2{text-align:center;font-size:28px;margin:64px 0 24px}.three{grid-template-columns:repeat(3,1fr)}.ic{font-size:26px}
+.sw{display:flex;justify-content:center;gap:8px;margin-bottom:22px}.sw button.on{background:var(--acc);color:#fff}.sw button{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.price{font-size:38px;font-weight:800}.price small{font-size:14px;color:var(--mute);font-weight:400}.hot{border-color:var(--acc);box-shadow:0 8px 30px #4f46e522}
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}summary{cursor:pointer;font-weight:600}details p{color:var(--mute);margin-top:8px}
+.cta{background:var(--acc);color:#fff;border-radius:22px;text-align:center;padding:44px 20px;margin:64px 0 20px}.cta button{background:#fff;color:var(--acc);margin-top:14px}
+footer{text-align:center;color:var(--mute);padding:20px}
+@media(max-width:760px){#menu{display:block}.links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--card);padding:10px 20px;border-bottom:1px solid var(--line)}.links.on{display:block}.links a{display:block;margin:10px 0}.three{grid-template-columns:1fr}.mock{grid-template-columns:1fr 1fr}.mock .col:last-child{display:none}}</style></head><body>
+<header><nav><a class="logo" href="#">⚡ Flowly</a><button id="menu" aria-label="Menu">☰</button><div class="links" id="lk"><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#go"><b style="color:var(--acc)">Get started</b></a></div></nav></header>
+<div class="wrap"><section class="hero"><span class="pill">New · Automations 2.0</span><h1>Run your team’s work in <em>one calm place</em></h1><p>Plan projects, track tasks and keep everyone on the same page. Simple enough for day one.</p><button onclick="location.hash='go'">Start free trial</button>
+<div class="card mock"><div class="col"><b>To do</b><i></i><i></i><i></i></div><div class="col"><b>In progress</b><i></i><i></i></div><div class="col"><b>Done</b><i></i><i></i><i></i></div></div></section>
+<h2 id="features">Everything your team needs</h2><div class="grid three"><div class="card"><div class="ic">📋</div><h3>Task boards</h3><p class="sub">Drag-and-drop style boards for every project.</p></div><div class="card"><div class="ic">🔔</div><h3>Smart reminders</h3><p class="sub">Never miss a deadline with timely nudges.</p></div><div class="card"><div class="ic">📊</div><h3>Clear reports</h3><p class="sub">See progress at a glance, share in one click.</p></div></div>
+<h2 id="pricing">Simple pricing</h2><div class="sw"><button id="mo" class="on">Monthly</button><button id="yr">Yearly · save 20%</button></div>
+<div class="grid three" id="pr"></div>
+<h2 id="faq">Questions</h2><details><summary>Is there a free trial?</summary><p>Yes, 14 days on any plan. No card required.</p></details><details><summary>Can I change plans later?</summary><p>Anytime. Changes apply from your next billing cycle.</p></details><details><summary>Does it work on mobile?</summary><p>Yes. The whole app is responsive on phone, tablet and desktop.</p></details>
+<div class="cta" id="go"><h2 style="margin:0;color:#fff">Ready to try Flowly?</h2><p>Join free in under a minute.</p><button>Create free account</button></div></div><footer>© 2026 Flowly · Demo landing page by Rudra Soni</footer>
+<script>
+var PL=[["Starter",9,"For individuals",["3 projects","Basic reports"]],["Team",19,"For growing teams",["Unlimited projects","Automations","Priority support"]],["Business",39,"For whole companies",["Everything in Team","SSO & roles","Audit log"]]];
+var yearly=false,pr=document.getElementById("pr");
+function draw(){pr.innerHTML=PL.map(function(p,i){var v=yearly?Math.round(p[1]*0.8):p[1];return'<div class="card'+(i==1?" hot":"")+'"><b>'+p[0]+(i==1?' <span class="pill">Popular</span>':"")+'</b><p class="sub">'+p[2]+'</p><div class="price">$'+v+'<small> /user/mo</small></div><ul style="margin:14px 0 18px 18px;color:var(--mute)">'+p[3].map(function(f){return"<li>"+f+"</li>"}).join("")+'</ul><button'+(i==1?"":' class="g"')+">Choose "+p[0]+"</button></div>"}).join("")}
+function set(y){yearly=y;document.getElementById("yr").classList.toggle("on",y);document.getElementById("mo").classList.toggle("on",!y);draw()}
+document.getElementById("mo").onclick=function(){set(false)};document.getElementById("yr").onclick=function(){set(true)};
+document.getElementById("menu").onclick=function(){document.getElementById("lk").classList.toggle("on")};
+document.getElementById("lk").onclick=function(){this.classList.remove("on")};draw();
+</script></body></html>

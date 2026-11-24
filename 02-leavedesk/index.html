@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LeaveDesk — Leave Management</title>
+<style>
+:root{--bg:#f5f6fa;--card:#fff;--ink:#14161f;--mute:#667085;--line:#e4e7ee;--acc:#4f46e5;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--soft:#eef0ff}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1117;--card:#181b24;--ink:#eceef5;--mute:#98a2b3;--line:#2a2f3c;--soft:#22264a}}
+*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,"Segoe UI",sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:24px 20px}h1{font-size:26px}.sub{color:var(--mute)}
+input,select,textarea,button{font:inherit;color:inherit}
+input,select,textarea{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);width:100%}
+button{cursor:pointer;border:0;border-radius:10px;padding:10px 16px;background:var(--acc);color:#fff;font-weight:600}
+button.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}.grid{display:grid;gap:14px}
+.pill{font-size:12px;padding:2px 10px;border-radius:99px;background:var(--soft);color:var(--acc);font-weight:600;display:inline-block}
+label{font-size:13px;color:var(--mute);display:block;margin-bottom:4px}
+@media(max-width:700px){.wrap{padding:16px 14px}}
+.bals{grid-template-columns:repeat(3,1fr);margin:18px 0}.bals b{font-size:26px}.meter{height:8px;background:var(--line);border-radius:9px;margin-top:8px;overflow:hidden}.meter i{display:block;height:100%;background:var(--acc)}
+.two{grid-template-columns:1fr 1.4fr;align-items:start}.f{display:grid;gap:12px}.r{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
+.Pending{color:var(--warn)}.Approved{color:var(--ok)}.Rejected{color:var(--bad)}.r button{padding:5px 10px;font-size:12px}.err{color:var(--bad);font-size:13px;min-height:18px}
+@media(max-width:800px){.two,.bals{grid-template-columns:1fr}}</style></head><body>
+<div class="wrap"><h1>🗓 LeaveDesk</h1><p class="sub">Apply for leave, track balance, approve requests. Saved in your browser.</p>
+<div class="grid bals" id="b"></div>
+<div class="grid two"><form class="card f" id="f"><h3>Apply for leave</h3>
+<div><label>Leave type</label><select id="t"><option>Casual</option><option>Sick</option><option>Earned</option></select></div>
+<div><label>From</label><input type="date" id="a" required></div><div><label>To</label><input type="date" id="z" required></div>
+<div><label>Reason</label><input id="why" placeholder="Short reason" required></div>
+<div class="err" id="e"></div><button>Submit request</button></form>
+<div class="card"><h3>Requests <span class="pill">Manager view: Approve / Reject</span></h3><div id="l"></div></div></div></div>
+<script>
+var TOT={Casual:12,Sick:10,Earned:15},R=[];
+try{R=JSON.parse(localStorage.getItem("leaves")||"[]")}catch(x){}
+function save(){try{localStorage.setItem("leaves",JSON.stringify(R))}catch(x){}}
+function days(a,z){var n=0,d=new Date(a),e=new Date(z);while(d<=e){if(d.getDay()!=0)n++;d.setDate(d.getDate()+1)}return n}
+function used(t){return R.filter(function(r){return r.t==t&&r.s!="Rejected"}).reduce(function(s,r){return s+r.n},0)}
+function draw(){
+  document.getElementById("b").innerHTML=Object.keys(TOT).map(function(t){var u=used(t);return'<div class="card"><span class="sub">'+t+' leave</span><br><b>'+(TOT[t]-u)+'</b> <span class="sub">of '+TOT[t]+' left</span><div class="meter"><i style="width:'+Math.min(100,u/TOT[t]*100)+'%"></i></div></div>'}).join("");
+  document.getElementById("l").innerHTML=R.length?R.slice().reverse().map(function(r){var i=R.indexOf(r);return'<div class="r"><div><b>'+r.t+' · '+r.n+' day'+(r.n>1?"s":"")+'</b><br><small class="sub">'+r.a+' → '+r.z+' · '+r.w+'</small></div><div><b class="'+r.s+'">'+r.s+'</b> '+(r.s=="Pending"?'<button data-i="'+i+'" data-a="Approved">Approve</button> <button class="g" data-i="'+i+'" data-a="Rejected">Reject</button>':'<button class="g" data-i="'+i+'" data-a="del">Delete</button>')+"</div></div>"}).join(""):'<p class="sub" style="padding:14px 0">No requests yet.</p>';
+}
+document.getElementById("f").onsubmit=function(ev){ev.preventDefault();
+  var t=document.getElementById("t").value,a=document.getElementById("a").value,z=document.getElementById("z").value,w=document.getElementById("why").value.trim(),er=document.getElementById("e");
+  if(z<a){er.textContent="End date must be after start date.";return}
+  var n=days(a,z);if(!n){er.textContent="Selected dates are only Sundays.";return}
+  if(n>TOT[t]-used(t)){er.textContent="Not enough "+t+" leave balance ("+(TOT[t]-used(t))+" left).";return}
+  er.textContent="";R.push({t:t,a:a,z:z,w:w,n:n,s:"Pending"});save();this.reset();draw()};
+document.getElementById("l").onclick=function(ev){var b=ev.target.closest("button");if(!b)return;var i=+b.dataset.i;if(b.dataset.a=="del")R.splice(i,1);else R[i].s=b.dataset.a;save();draw()};
+draw();
+</script></body></html>
