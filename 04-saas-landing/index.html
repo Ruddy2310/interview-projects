@@ -1,44 +1,266 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flowly — Team Workflow Software</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flowly, team workflow software</title>
+<meta name="description" content="Plan projects, track tasks and keep everyone on the same page.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f5f6fa;--card:#fff;--ink:#14161f;--mute:#667085;--line:#e4e7ee;--acc:#4f46e5;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--soft:#eef0ff}
-@media(prefers-color-scheme:dark){:root{--bg:#0f1117;--card:#181b24;--ink:#eceef5;--mute:#98a2b3;--line:#2a2f3c;--soft:#22264a}}
-*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,"Segoe UI",sans-serif}
-.wrap{max-width:1040px;margin:0 auto;padding:24px 20px}h1{font-size:26px}.sub{color:var(--mute)}
-input,select,textarea,button{font:inherit;color:inherit}
-input,select,textarea{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);width:100%}
-button{cursor:pointer;border:0;border-radius:10px;padding:10px 16px;background:var(--acc);color:#fff;font-weight:600}
-button.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}.grid{display:grid;gap:14px}
-.pill{font-size:12px;padding:2px 10px;border-radius:99px;background:var(--soft);color:var(--acc);font-weight:600;display:inline-block}
-label{font-size:13px;color:var(--mute);display:block;margin-bottom:4px}
-@media(max-width:700px){.wrap{padding:16px 14px}}
-body{scroll-behavior:smooth}header{position:sticky;top:0;background:var(--card);border-bottom:1px solid var(--line);z-index:5}
-nav{max-width:1040px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}nav a{text-decoration:none;color:var(--mute);margin-left:22px}nav a:hover{color:var(--ink)}nav .logo{color:var(--ink);font-weight:800;font-size:19px;margin:0}
-#menu{display:none;background:none;color:var(--ink);border:1px solid var(--line)}
-.hero{text-align:center;padding:72px 0 40px}.hero h1{font-size:clamp(34px,6vw,60px);line-height:1.1;letter-spacing:-.02em;max-width:760px;margin:0 auto}.hero h1 em{font-style:normal;color:var(--acc)}.hero p{max-width:520px;margin:18px auto 26px;color:var(--mute);font-size:18px}
-.mock{margin:44px auto 0;max-width:720px;padding:16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.col{background:var(--bg);border-radius:12px;padding:10px;min-height:150px}.col i{display:block;height:34px;border-radius:8px;background:var(--soft);margin-top:8px}.col i:nth-child(odd){background:var(--acc);opacity:.85}
-h2{text-align:center;font-size:28px;margin:64px 0 24px}.three{grid-template-columns:repeat(3,1fr)}.ic{font-size:26px}
-.sw{display:flex;justify-content:center;gap:8px;margin-bottom:22px}.sw button.on{background:var(--acc);color:#fff}.sw button{background:transparent;color:var(--ink);border:1px solid var(--line)}
-.price{font-size:38px;font-weight:800}.price small{font-size:14px;color:var(--mute);font-weight:400}.hot{border-color:var(--acc);box-shadow:0 8px 30px #4f46e522}
-details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}summary{cursor:pointer;font-weight:600}details p{color:var(--mute);margin-top:8px}
-.cta{background:var(--acc);color:#fff;border-radius:22px;text-align:center;padding:44px 20px;margin:64px 0 20px}.cta button{background:#fff;color:var(--acc);margin-top:14px}
-footer{text-align:center;color:var(--mute);padding:20px}
-@media(max-width:760px){#menu{display:block}.links{display:none;position:absolute;top:100%;left:0;right:0;background:var(--card);padding:10px 20px;border-bottom:1px solid var(--line)}.links.on{display:block}.links a{display:block;margin:10px 0}.three{grid-template-columns:1fr}.mock{grid-template-columns:1fr 1fr}.mock .col:last-child{display:none}}</style></head><body>
-<header><nav><a class="logo" href="#">⚡ Flowly</a><button id="menu" aria-label="Menu">☰</button><div class="links" id="lk"><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#go"><b style="color:var(--acc)">Get started</b></a></div></nav></header>
-<div class="wrap"><section class="hero"><span class="pill">New · Automations 2.0</span><h1>Run your team’s work in <em>one calm place</em></h1><p>Plan projects, track tasks and keep everyone on the same page. Simple enough for day one.</p><button onclick="location.hash='go'">Start free trial</button>
-<div class="card mock"><div class="col"><b>To do</b><i></i><i></i><i></i></div><div class="col"><b>In progress</b><i></i><i></i></div><div class="col"><b>Done</b><i></i><i></i><i></i></div></div></section>
-<h2 id="features">Everything your team needs</h2><div class="grid three"><div class="card"><div class="ic">📋</div><h3>Task boards</h3><p class="sub">Drag-and-drop style boards for every project.</p></div><div class="card"><div class="ic">🔔</div><h3>Smart reminders</h3><p class="sub">Never miss a deadline with timely nudges.</p></div><div class="card"><div class="ic">📊</div><h3>Clear reports</h3><p class="sub">See progress at a glance, share in one click.</p></div></div>
-<h2 id="pricing">Simple pricing</h2><div class="sw"><button id="mo" class="on">Monthly</button><button id="yr">Yearly · save 20%</button></div>
-<div class="grid three" id="pr"></div>
-<h2 id="faq">Questions</h2><details><summary>Is there a free trial?</summary><p>Yes, 14 days on any plan. No card required.</p></details><details><summary>Can I change plans later?</summary><p>Anytime. Changes apply from your next billing cycle.</p></details><details><summary>Does it work on mobile?</summary><p>Yes. The whole app is responsive on phone, tablet and desktop.</p></details>
-<div class="cta" id="go"><h2 style="margin:0;color:#fff">Ready to try Flowly?</h2><p>Join free in under a minute.</p><button>Create free account</button></div></div><footer>© 2026 Flowly · Demo landing page by Rudra Soni</footer>
+:root{
+  --paper:#F1F5F2; --panel:#FFFFFF; --ink:#10251E; --mute:#53675E; --line:#D3DDD6;
+  --moss:#1D5A44; --moss-ink:#F1F5F2; --mint:#D2E8DA; --peach:#F4A878;
+  --display:"Familjen Grotesk","Segoe UI",system-ui,sans-serif;
+  --body:"Figtree","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--paper:#0D1713; --panel:#14231C; --ink:#E8F0EB; --mute:#9DB1A6; --line:#26392F; --moss:#2E8566; --moss-ink:#F1F5F2; --mint:#1C3A2C}
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font:400 1.0625rem/1.6 var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--peach);outline-offset:3px;border-radius:4px}
+section[id]{scroll-margin-top:84px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+
+/* header */
+header{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:1px solid var(--line)}
+nav{max-width:1120px;margin:0 auto;padding:0 28px;height:68px;display:flex;align-items:center;justify-content:space-between}
+.logo{font:700 1.45rem var(--display);letter-spacing:-.03em;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{width:22px;height:22px;border-radius:50% 50% 50% 4px;background:var(--moss);display:block}
+.links{display:flex;align-items:center;gap:30px}
+.links a{text-decoration:none;color:var(--mute);font-weight:500}
+.links a:hover{color:var(--ink)}
+.links a.join{color:var(--moss-ink);background:var(--moss);padding:9px 18px;border-radius:999px}
+.links a.join:hover{color:var(--moss-ink);filter:brightness(1.12)}
+#menu{display:none;background:none;border:1px solid var(--line);border-radius:8px;padding:8px 14px;font-weight:600}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:56px;align-items:center;padding:84px 0 96px}
+.hero h1{font:700 clamp(2.7rem,5.6vw,4.6rem)/1 var(--display);letter-spacing:-.04em;margin-bottom:24px}
+.hero p.lead{font-size:1.2rem;color:var(--mute);max-width:26em;margin-bottom:34px}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-block;text-decoration:none;font-weight:600;padding:14px 26px;border-radius:999px;background:var(--moss);color:var(--moss-ink);border:0}
+.btn:hover{filter:brightness(1.12)}
+.btn.line{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.line:hover{background:var(--ink);color:var(--paper);filter:none}
+.fine{margin-top:18px;font-size:.95rem;color:var(--mute)}
+
+/* board */
+.board{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 40px 60px -40px rgba(16,37,30,.5);overflow-x:auto}
+.board-top{display:flex;justify-content:space-between;align-items:baseline;padding:4px 8px 14px;font-weight:600}
+.board-top span{font-weight:400;font-size:.9rem;color:var(--mute)}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(150px,1fr));gap:10px}
+.col{background:var(--paper);border-radius:12px;padding:10px;min-height:250px}
+.col h4{font:600 .95rem var(--body);display:flex;justify-content:space-between;padding:2px 4px 10px}
+.col h4 b{font-weight:500;color:var(--mute)}
+.task{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:11px 12px;margin-bottom:8px;font-size:.93rem;line-height:1.35;animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+.task:hover{border-color:var(--moss)}
+.task em{display:flex;align-items:center;gap:7px;margin-top:9px;font-style:normal;font-size:.8rem;color:var(--mute)}
+.task em s{width:20px;height:20px;border-radius:50%;background:var(--mint);color:var(--moss);font:600 .68rem/20px var(--body);text-align:center;text-decoration:none}
+.col:last-child .task{opacity:.72}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* features */
+.band{border-top:1px solid var(--line);padding:84px 0}
+.band h2{font:700 clamp(2rem,3.6vw,2.9rem)/1.05 var(--display);letter-spacing:-.035em;max-width:14em;margin-bottom:48px}
+.feat{display:grid;grid-template-columns:repeat(3,1fr)}
+.feat div{padding:0 32px;border-left:1px solid var(--line)}
+.feat div:first-child{padding-left:0;border-left:0}
+.feat h3{font:600 1.3rem var(--display);letter-spacing:-.02em;margin-bottom:10px}
+.feat p{color:var(--mute)}
+
+/* pricing */
+.price-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.price-head h2{margin:0}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px}
+.seg button{background:none;border:0;border-radius:999px;padding:9px 20px;font-weight:600;color:var(--mute)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+.plan{border:1px solid var(--line);border-radius:10px;padding:30px;display:flex;flex-direction:column;background:var(--panel)}
+.plan.pick{background:var(--moss);color:var(--moss-ink);border-color:var(--moss)}
+.plan h3{font:600 1.35rem var(--display);display:flex;justify-content:space-between;align-items:center}
+.plan .tag{font:600 .8rem var(--body);background:var(--peach);color:#3A1C08;padding:3px 11px;border-radius:999px}
+.plan .for{color:var(--mute);margin:4px 0 22px}
+.plan.pick .for{color:#CFE3D8}
+.amt{font:700 3.2rem/1 var(--display);letter-spacing:-.04em}
+.amt small{font:400 .95rem var(--body);letter-spacing:0;opacity:.7}
+.plan ul{list-style:none;padding:0;margin:24px 0 28px;flex:1}
+.plan li{padding:9px 0;border-top:1px solid var(--line)}
+.plan.pick li{border-color:rgba(241,245,242,.28)}
+.plan .btn{text-align:center;width:100%}
+.plan.pick .btn{background:var(--paper);color:var(--ink)}
+.plan:not(.pick) .btn{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.plan:not(.pick) .btn:hover{background:var(--ink);color:var(--paper);filter:none}
+
+/* faq */
+.faq{max-width:760px}
+details{border-top:1px solid var(--line)}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;font:600 1.2rem var(--display);padding:22px 0;display:flex;justify-content:space-between;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-weight:500;font-size:1.5rem;line-height:1;color:var(--moss)}
+details[open] summary::after{content:"\2212"}
+details p{color:var(--mute);padding:0 40px 24px 0;max-width:36em}
+
+/* closing */
+.close{background:var(--moss);color:var(--moss-ink);padding:88px 0}
+.close .wrap{display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+.close h2{font:700 clamp(2.2rem,4.4vw,3.6rem)/1.02 var(--display);letter-spacing:-.04em;max-width:11em}
+.close p{margin-top:12px;color:#CFE3D8}
+.close .btn{background:var(--paper);color:var(--ink)}
+footer{padding:34px 0;color:var(--mute);font-size:.95rem}
+
+@media (max-width:860px){
+  .wrap,nav{padding-left:20px;padding-right:20px}
+  #menu{display:block}
+  .links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--paper);border-bottom:1px solid var(--line);padding:8px 20px 18px}
+  .links.on{display:flex}
+  .links a{padding:13px 0}
+  .links a.join{text-align:center;margin-top:8px}
+  .hero{grid-template-columns:1fr;gap:44px;padding:48px 0 64px}
+  .band{padding:60px 0}
+  .feat{grid-template-columns:1fr;gap:30px}
+  .feat div,.feat div:first-child{padding:24px 0 0;border-left:0;border-top:1px solid var(--line)}
+  .feat div:first-child{border-top:0;padding-top:0}
+  .plans{grid-template-columns:1fr}
+  .close{padding:60px 0}
+}
+@media (prefers-reduced-motion:reduce){.task{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a class="logo" href="#top"><i></i>Flowly</a>
+    <button id="menu" aria-label="Menu" aria-expanded="false" aria-controls="lk">Menu</button>
+    <div class="links" id="lk">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a class="join" href="#go">Get started</a>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <section class="hero">
+      <div>
+        <h1>Your team’s work, in one calm place.</h1>
+        <p class="lead">Plan projects, track tasks and keep everyone on the same page. Simple enough for day one.</p>
+        <div class="cta-row">
+          <a class="btn" href="#go">Start free trial</a>
+          <a class="btn line" href="#pricing">See pricing</a>
+        </div>
+        <p class="fine">14 days free. No card required.</p>
+      </div>
+      <div class="board" aria-label="Sample task board">
+        <div class="board-top">Launch week <span>Select a task to move it along</span></div>
+        <div class="cols" id="cols"></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="band" id="features">
+    <div class="wrap">
+      <h2>Everything your team needs, nothing it doesn’t.</h2>
+      <div class="feat">
+        <div><h3>Task boards</h3><p>A board for every project. Move work from to do to done in a click and see who owns what.</p></div>
+        <div><h3>Smart reminders</h3><p>Flowly nudges the right person at the right time, so deadlines stop sneaking up on you.</p></div>
+        <div><h3>Clear reports</h3><p>See progress at a glance and share a report with your whole team in one click.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="pricing">
+    <div class="wrap">
+      <div class="price-head">
+        <h2>Simple pricing.</h2>
+        <div class="seg" role="group" aria-label="Billing period">
+          <button id="mo" aria-pressed="true">Monthly</button>
+          <button id="yr" aria-pressed="false">Yearly, save 20%</button>
+        </div>
+      </div>
+      <div class="plans" id="pr"></div>
+    </div>
+  </section>
+
+  <section class="band" id="faq">
+    <div class="wrap faq">
+      <h2>Questions, answered.</h2>
+      <details><summary>Is there a free trial?</summary><p>Yes, 14 days on any plan. No card required.</p></details>
+      <details><summary>Can I change plans later?</summary><p>Anytime. Changes apply from your next billing cycle.</p></details>
+      <details><summary>Does it work on mobile?</summary><p>Yes. The whole app is responsive on phone, tablet and desktop.</p></details>
+    </div>
+  </section>
+
+  <section class="close" id="go">
+    <div class="wrap">
+      <div>
+        <h2>Ready to try Flowly?</h2>
+        <p>Join free in under a minute.</p>
+      </div>
+      <a class="btn" href="#go">Create free account</a>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">© 2026 Flowly. Demo landing page by Rudra Soni.</div></footer>
+
 <script>
-var PL=[["Starter",9,"For individuals",["3 projects","Basic reports"]],["Team",19,"For growing teams",["Unlimited projects","Automations","Priority support"]],["Business",39,"For whole companies",["Everything in Team","SSO & roles","Audit log"]]];
-var yearly=false,pr=document.getElementById("pr");
-function draw(){pr.innerHTML=PL.map(function(p,i){var v=yearly?Math.round(p[1]*0.8):p[1];return'<div class="card'+(i==1?" hot":"")+'"><b>'+p[0]+(i==1?' <span class="pill">Popular</span>':"")+'</b><p class="sub">'+p[2]+'</p><div class="price">$'+v+'<small> /user/mo</small></div><ul style="margin:14px 0 18px 18px;color:var(--mute)">'+p[3].map(function(f){return"<li>"+f+"</li>"}).join("")+'</ul><button'+(i==1?"":' class="g"')+">Choose "+p[0]+"</button></div>"}).join("")}
-function set(y){yearly=y;document.getElementById("yr").classList.toggle("on",y);document.getElementById("mo").classList.toggle("on",!y);draw()}
-document.getElementById("mo").onclick=function(){set(false)};document.getElementById("yr").onclick=function(){set(true)};
-document.getElementById("menu").onclick=function(){document.getElementById("lk").classList.toggle("on")};
-document.getElementById("lk").onclick=function(){this.classList.remove("on")};draw();
-</script></body></html>
+// Pricing
+var PL=[["Starter",9,"For individuals",["3 projects","Basic reports"]],
+        ["Team",19,"For growing teams",["Unlimited projects","Automations","Priority support"]],
+        ["Business",39,"For whole companies",["Everything in Team","SSO and roles","Audit log"]]];
+var yearly=false, pr=document.getElementById("pr");
+function draw(){
+  pr.innerHTML=PL.map(function(p,i){
+    var v=yearly?Math.round(p[1]*0.8):p[1], pick=i===1;
+    return '<div class="plan'+(pick?' pick':'')+'"><h3>'+p[0]+(pick?'<span class="tag">Popular</span>':'')+'</h3>'
+      +'<p class="for">'+p[2]+'</p><div class="amt">$'+v+'<small> /user/mo</small></div>'
+      +'<ul>'+p[3].map(function(f){return '<li>'+f+'</li>'}).join('')+'</ul>'
+      +'<a class="btn" href="#go">Choose '+p[0]+'</a></div>';
+  }).join('');
+}
+function setBilling(y){
+  yearly=y;
+  document.getElementById("yr").setAttribute("aria-pressed",y);
+  document.getElementById("mo").setAttribute("aria-pressed",!y);
+  draw();
+}
+document.getElementById("mo").onclick=function(){setBilling(false)};
+document.getElementById("yr").onclick=function(){setBilling(true)};
+
+// Mobile menu
+var menu=document.getElementById("menu"), lk=document.getElementById("lk");
+menu.onclick=function(){var on=lk.classList.toggle("on");menu.setAttribute("aria-expanded",on)};
+lk.onclick=function(){lk.classList.remove("on");menu.setAttribute("aria-expanded","false")};
+
+// Sample board
+var COLS=["To do","In progress","Done"];
+var TASKS=[["Write launch email","Maya",0],["Review pricing page","Dev",0],["Design onboarding","Ira",1],["Fix invoice export","Sam",1],["Kick-off notes","Maya",2]];
+var colsEl=document.getElementById("cols"), first=true;
+function drawBoard(){
+  colsEl.innerHTML=COLS.map(function(c,ci){
+    var items=TASKS.map(function(t,ti){return {t:t,i:ti}}).filter(function(x){return x.t[2]===ci});
+    return '<div class="col"><h4>'+c+'<b>'+items.length+'</b></h4>'+items.map(function(x){
+      return '<button class="task" data-i="'+x.i+'" style="'+(first?'animation-delay:'+(x.i*90)+'ms':'animation:none')+'">'+x.t[0]
+        +'<em><s>'+x.t[1].charAt(0)+'</s>'+x.t[1]+'</em></button>';
+    }).join('')+'</div>';
+  }).join('');
+  first=false;
+}
+colsEl.onclick=function(e){
+  var b=e.target.closest(".task"); if(!b) return;
+  var t=TASKS[b.dataset.i]; t[2]=(t[2]+1)%3; drawBoard();
+};
+draw(); drawBoard();
+</script>
+</body>
+</html>
