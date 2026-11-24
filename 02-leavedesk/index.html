@@ -1,46 +1,238 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LeaveDesk — Leave Management</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LeaveDesk | Plan time off</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f5f6fa;--card:#fff;--ink:#14161f;--mute:#667085;--line:#e4e7ee;--acc:#4f46e5;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--soft:#eef0ff}
-@media(prefers-color-scheme:dark){:root{--bg:#0f1117;--card:#181b24;--ink:#eceef5;--mute:#98a2b3;--line:#2a2f3c;--soft:#22264a}}
-*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,"Segoe UI",sans-serif}
-.wrap{max-width:1040px;margin:0 auto;padding:24px 20px}h1{font-size:26px}.sub{color:var(--mute)}
-input,select,textarea,button{font:inherit;color:inherit}
-input,select,textarea{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);width:100%}
-button{cursor:pointer;border:0;border-radius:10px;padding:10px 16px;background:var(--acc);color:#fff;font-weight:600}
-button.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}.grid{display:grid;gap:14px}
-.pill{font-size:12px;padding:2px 10px;border-radius:99px;background:var(--soft);color:var(--acc);font-weight:600;display:inline-block}
-label{font-size:13px;color:var(--mute);display:block;margin-bottom:4px}
-@media(max-width:700px){.wrap{padding:16px 14px}}
-.bals{grid-template-columns:repeat(3,1fr);margin:18px 0}.bals b{font-size:26px}.meter{height:8px;background:var(--line);border-radius:9px;margin-top:8px;overflow:hidden}.meter i{display:block;height:100%;background:var(--acc)}
-.two{grid-template-columns:1fr 1.4fr;align-items:start}.f{display:grid;gap:12px}.r{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)}
-.Pending{color:var(--warn)}.Approved{color:var(--ok)}.Rejected{color:var(--bad)}.r button{padding:5px 10px;font-size:12px}.err{color:var(--bad);font-size:13px;min-height:18px}
-@media(max-width:800px){.two,.bals{grid-template-columns:1fr}}</style></head><body>
-<div class="wrap"><h1>🗓 LeaveDesk</h1><p class="sub">Apply for leave, track balance, approve requests. Saved in your browser.</p>
-<div class="grid bals" id="b"></div>
-<div class="grid two"><form class="card f" id="f"><h3>Apply for leave</h3>
-<div><label>Leave type</label><select id="t"><option>Casual</option><option>Sick</option><option>Earned</option></select></div>
-<div><label>From</label><input type="date" id="a" required></div><div><label>To</label><input type="date" id="z" required></div>
-<div><label>Reason</label><input id="why" placeholder="Short reason" required></div>
-<div class="err" id="e"></div><button>Submit request</button></form>
-<div class="card"><h3>Requests <span class="pill">Manager view: Approve / Reject</span></h3><div id="l"></div></div></div></div>
+:root{--bg:#EFF1F6;--panel:#fff;--ink:#0F1222;--mute:#5C6280;--line:#E0E3EE;--blue:#3B34E0;
+--disp:"Syne","Segoe UI",system-ui,sans-serif;--sans:"Manrope","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:400 1rem/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid #F4B63E;outline-offset:2px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px 80px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:22px 0;gap:14px;flex-wrap:wrap}
+.logo{font:800 1.45rem var(--disp);letter-spacing:-.03em;display:flex;align-items:center;gap:10px}
+.logo i{width:26px;height:26px;border-radius:8px;background:var(--blue);position:relative}
+.logo i:after{content:"";position:absolute;left:6px;right:6px;top:9px;height:3px;background:#fff;border-radius:2px;box-shadow:0 6px 0 #fff}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px}
+.seg button{border:0;background:none;border-radius:999px;padding:8px 18px;font-weight:600;color:var(--mute)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+h1{font:800 clamp(2.4rem,5.6vw,4.4rem)/1 var(--disp);letter-spacing:-.04em;margin:30px 0 12px;max-width:13em}
+.sub{color:var(--mute);font-size:1.1rem;margin-bottom:36px;max-width:36em}
+.main{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:28px;align-items:start}
+.panel{background:var(--panel);border-radius:20px;padding:26px}
+h2{font:700 1.15rem var(--disp);letter-spacing:-.01em;margin-bottom:16px}
+.cal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.cal-h b{font:800 1.5rem var(--disp);letter-spacing:-.03em}
+.nav button{border:1px solid var(--line);background:none;width:38px;height:38px;border-radius:50%;font-size:1.1rem;margin-left:6px}
+.nav button:hover{background:var(--ink);color:#fff}
+.wd,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.wd span{text-align:center;color:var(--mute);font-size:.8rem;font-weight:600;padding-bottom:6px}
+.day{aspect-ratio:1/.92;border:0;background:none;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;position:relative;font-weight:600}
+.day:hover:not(:disabled){background:var(--bg)}
+.day:disabled{color:#B8BCCF;cursor:default}
+.day.we{color:var(--mute);font-weight:500}
+.day.today b{box-shadow:0 0 0 2px var(--ink);border-radius:50%;min-width:28px;line-height:28px}
+.day.in{background:#E3E2FC;border-radius:0}
+.day.edge{background:var(--blue);color:#fff;border-radius:12px}
+.day.edge.today b{box-shadow:0 0 0 2px #fff}
+.day b{font-weight:inherit;min-width:28px;text-align:center}
+.mk{display:flex;gap:3px;height:6px}
+.mk i{width:6px;height:6px;border-radius:50%}
+.day.edge .mk i{box-shadow:0 0 0 1px #fff}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;color:var(--mute);font-size:.85rem}
+.legend s{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;text-decoration:none}
+.rings{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:26px}
+.ring{text-align:center}
+.ring .o{width:100%;max-width:104px;aspect-ratio:1;border-radius:50%;margin:0 auto 8px;display:grid;place-items:center}
+.ring .o b{width:76%;aspect-ratio:1;background:var(--panel);border-radius:50%;display:grid;place-items:center;font:800 1.5rem var(--disp)}
+.ring span{display:block;font-weight:600;font-size:.92rem}
+.ring small{color:var(--mute);font-size:.8rem}
+.types{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
+.tp{border:1.5px solid var(--line);background:none;border-radius:12px;padding:10px 6px;font-weight:600;font-size:.92rem}
+.tp small{display:block;font-weight:500;color:var(--mute);font-size:.78rem}
+.tp[aria-checked="true"]{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,#fff)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-weight:600;font-size:.88rem;margin:14px 0 5px}
+input[type=date],textarea{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:12px;background:#F8F9FC}
+textarea{min-height:76px;resize:vertical}
+[aria-invalid="true"]{border-color:#D9462F}
+.err{color:#C03A25;font-size:.86rem;margin-top:5px}
+.calc{color:var(--mute);font-size:.92rem;margin-top:10px}
+.send{width:100%;margin-top:18px;border:0;background:var(--blue);color:#fff;font-weight:700;padding:14px;border-radius:999px}
+.send:hover{filter:brightness(1.12)}
+.lh{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;margin:48px 0 16px}
+.lh h2{margin:0;font-size:1.6rem}
+.tabs button{border:0;background:none;padding:7px 14px;border-radius:999px;font-weight:600;color:var(--mute)}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.passes{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+.pass{display:grid;grid-template-columns:92px 1fr;background:var(--panel);border-radius:16px;position:relative}
+.pass:before,.pass:after{content:"";position:absolute;left:92px;width:18px;height:18px;border-radius:50%;background:var(--bg);transform:translateX(-50%)}
+.pass:before{top:-9px}.pass:after{bottom:-9px}
+.stub{background:var(--c);color:#fff;border-radius:16px 0 0 16px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.stub b{font:800 2.4rem/1 var(--disp)}
+.stub span{font-size:.8rem;font-weight:600}
+.pb{padding:16px 18px;border-left:2px dashed var(--line)}
+.pb .t{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.pb h3{font:700 1.02rem var(--sans)}
+.st{font-size:.76rem;font-weight:700;padding:2px 10px;border-radius:999px;border:1.5px solid}
+.st.Pending{color:#9A6414}.st.Approved{color:#0E8577}.st.Rejected{color:#C03A25}
+.pb .d{color:var(--mute);font-size:.9rem}
+.pb .w{font-size:.93rem;margin-top:6px}
+.acts{display:flex;gap:8px;margin-top:12px}
+.acts button{border:1.5px solid var(--ink);background:none;border-radius:999px;padding:6px 16px;font-weight:600;font-size:.9rem}
+.acts .a{background:#0E8577;border-color:#0E8577;color:#fff}
+.acts .r{color:#C03A25;border-color:#C03A25}
+.empty{color:var(--mute);padding:30px 0}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 22px;border-radius:999px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+@media(max-width:900px){.wrap{padding:0 16px 64px}.main{grid-template-columns:1fr}.panel{padding:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="logo"><i></i>LeaveDesk</div>
+    <div class="seg" role="group" aria-label="View as">
+      <button id="m-emp" aria-pressed="true">Employee</button><button id="m-mgr" aria-pressed="false">Manager</button>
+    </div>
+  </header>
+  <h1 id="title">Pick your days. We’ll handle the rest.</h1>
+  <p class="sub" id="sub">Tap a start date and an end date on the calendar. Weekends are never counted, and your balance updates the moment a request is sent.</p>
+
+  <div class="main">
+    <section class="panel" aria-label="Calendar">
+      <div class="cal-h"><b id="mt"></b><div class="nav"><button id="pv" aria-label="Previous month">&#8249;</button><button id="nx" aria-label="Next month">&#8250;</button></div></div>
+      <div class="wd" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+      <div class="days" id="days"></div>
+      <div class="legend"><span><s style="background:#3B34E0"></s>Casual</span><span><s style="background:#D9462F"></s>Sick</span><span><s style="background:#0E8577"></s>Earned</span></div>
+    </section>
+
+    <section class="panel" aria-label="Balance and request">
+      <h2>Your balance</h2>
+      <div class="rings" id="rings"></div>
+      <form id="f" novalidate>
+        <h2>New request</h2>
+        <div class="types" id="types" role="radiogroup" aria-label="Leave type"></div>
+        <div class="err" id="e-type"></div>
+        <div class="two">
+          <div><label for="from">From</label><input type="date" id="from"></div>
+          <div><label for="to">To</label><input type="date" id="to"></div>
+        </div>
+        <div class="err" id="e-dates"></div>
+        <p class="calc" id="calc" aria-live="polite"></p>
+        <label for="why">Reason</label>
+        <textarea id="why" placeholder="A line for your manager"></textarea>
+        <div class="err" id="e-why"></div>
+        <button class="send" type="submit">Send request</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="lh"><h2 id="lt">Your passes</h2><div class="tabs" id="tabs" role="group" aria-label="Filter by status"></div></div>
+  <div class="passes" id="list"></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
 <script>
-var TOT={Casual:12,Sick:10,Earned:15},R=[];
-try{R=JSON.parse(localStorage.getItem("leaves")||"[]")}catch(x){}
-function save(){try{localStorage.setItem("leaves",JSON.stringify(R))}catch(x){}}
-function days(a,z){var n=0,d=new Date(a),e=new Date(z);while(d<=e){if(d.getDay()!=0)n++;d.setDate(d.getDate()+1)}return n}
-function used(t){return R.filter(function(r){return r.t==t&&r.s!="Rejected"}).reduce(function(s,r){return s+r.n},0)}
-function draw(){
-  document.getElementById("b").innerHTML=Object.keys(TOT).map(function(t){var u=used(t);return'<div class="card"><span class="sub">'+t+' leave</span><br><b>'+(TOT[t]-u)+'</b> <span class="sub">of '+TOT[t]+' left</span><div class="meter"><i style="width:'+Math.min(100,u/TOT[t]*100)+'%"></i></div></div>'}).join("");
-  document.getElementById("l").innerHTML=R.length?R.slice().reverse().map(function(r){var i=R.indexOf(r);return'<div class="r"><div><b>'+r.t+' · '+r.n+' day'+(r.n>1?"s":"")+'</b><br><small class="sub">'+r.a+' → '+r.z+' · '+r.w+'</small></div><div><b class="'+r.s+'">'+r.s+'</b> '+(r.s=="Pending"?'<button data-i="'+i+'" data-a="Approved">Approve</button> <button class="g" data-i="'+i+'" data-a="Rejected">Reject</button>':'<button class="g" data-i="'+i+'" data-a="del">Delete</button>')+"</div></div>"}).join(""):'<p class="sub" style="padding:14px 0">No requests yet.</p>';
-}
-document.getElementById("f").onsubmit=function(ev){ev.preventDefault();
-  var t=document.getElementById("t").value,a=document.getElementById("a").value,z=document.getElementById("z").value,w=document.getElementById("why").value.trim(),er=document.getElementById("e");
-  if(z<a){er.textContent="End date must be after start date.";return}
-  var n=days(a,z);if(!n){er.textContent="Selected dates are only Sundays.";return}
-  if(n>TOT[t]-used(t)){er.textContent="Not enough "+t+" leave balance ("+(TOT[t]-used(t))+" left).";return}
-  er.textContent="";R.push({t:t,a:a,z:z,w:w,n:n,s:"Pending"});save();this.reset();draw()};
-document.getElementById("l").onclick=function(ev){var b=ev.target.closest("button");if(!b)return;var i=+b.dataset.i;if(b.dataset.a=="del")R.splice(i,1);else R[i].s=b.dataset.a;save();draw()};
-draw();
-</script></body></html>
+var ME="Rudra Soni",KEY="leavedesk.v2",$=function(i){return document.getElementById(i)};
+var TY={Casual:{t:12,c:"#3B34E0"},Sick:{t:8,c:"#D9462F"},Earned:{t:15,c:"#0E8577"}};
+function iso(d){var m=d.getMonth()+1,x=d.getDate();return d.getFullYear()+"-"+(m<10?"0":"")+m+"-"+(x<10?"0":"")+x}
+function parse(s){var a=s.split("-");return new Date(+a[0],a[1]-1,+a[2])}
+function plus(n){var d=new Date();d.setDate(d.getDate()+n);return iso(d)}
+function days(a,b){var n=0,d=parse(a),e=parse(b);while(d<=e){var w=d.getDay();if(w>0&&w<6)n++;d.setDate(d.getDate()+1)}return n}
+function fmt(s){return parse(s).toLocaleDateString("en-IN",{day:"numeric",month:"short"})}
+var TODAY=iso(new Date());
+function seed(){return{mode:"emp",reqs:[
+ {id:1,who:ME,type:"Casual",from:plus(-20),to:plus(-19),why:"Family function in Jamnagar.",status:"Approved"},
+ {id:2,who:ME,type:"Sick",from:plus(9),to:plus(9),why:"Dental appointment.",status:"Pending"},
+ {id:3,who:"Meera Desai",type:"Earned",from:plus(14),to:plus(18),why:"Annual trip with family.",status:"Pending"},
+ {id:4,who:"Karan Malhotra",type:"Casual",from:plus(6),to:plus(7),why:"Moving to a new flat.",status:"Pending"}]}}
+var S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!S||!S.reqs)S=seed();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+var now=new Date(),cur={y:now.getFullYear(),m:now.getMonth()},sel={from:"",to:""},ftype="",filter="All";
+function used(t,s){return S.reqs.filter(function(r){return r.who===ME&&r.type===t&&r.status===s}).reduce(function(a,r){return a+days(r.from,r.to)},0)}
+function avail(t){return TY[t].t-used(t,"Approved")-used(t,"Pending")}
+function toast(m){var t=$("toast");t.textContent=m;t.className="toast on";clearTimeout(toast.h);toast.h=setTimeout(function(){t.className="toast"},2400)}
+function visible(){return S.reqs.filter(function(r){return r.status!=="Rejected"&&(S.mode==="mgr"||r.who===ME)})}
+
+function drawCal(){
+  var y=cur.y,m=cur.m,first=new Date(y,m,1),off=(first.getDay()+6)%7,dim=new Date(y,m+1,0).getDate(),h="",lv=visible();
+  $("mt").textContent=first.toLocaleDateString("en-IN",{month:"long",year:"numeric"});
+  for(var i=0;i<off;i++)h+="<span></span>";
+  var a=sel.from,b=sel.to||sel.from;
+  for(var d=1;d<=dim;d++){
+    var s=iso(new Date(y,m,d)),w=new Date(y,m,d).getDay(),cls="day"+(w===0||w===6?" we":"")+(s===TODAY?" today":"");
+    if(a&&s>=a&&s<=b)cls+=" in";if(s===a||s===b&&sel.to)cls=cls.replace(" in","")+" edge";
+    var mk=lv.filter(function(r){return r.from<=s&&s<=r.to}).slice(0,3).map(function(r){return'<i style="background:'+TY[r.type].c+'" title="'+r.who+", "+r.type+" ("+r.status+')"></i>'}).join("");
+    h+='<button type="button" class="'+cls+'" data-d="'+s+'"'+(s<TODAY?" disabled":"")+' aria-label="'+parse(s).toDateString()+'"><b>'+d+'</b><span class="mk">'+mk+'</span></button>'}
+  $("days").innerHTML=h}
+function drawRings(){
+  $("rings").innerHTML=Object.keys(TY).map(function(t){var T=TY[t].t,u=used(t,"Approved")/T*100,p=u+used(t,"Pending")/T*100,c=TY[t].c;
+    return'<div class="ring"><div class="o" style="background:conic-gradient('+c+' 0 '+u+'%,color-mix(in srgb,'+c+' 35%,#fff) '+u+'% '+p+'%,#E8EAF2 '+p+'% 100%)"><b>'+avail(t)+'</b></div><span>'+t+'</span><small>of '+T+' days free</small></div>'}).join("")}
+function drawTypes(){
+  $("types").innerHTML=Object.keys(TY).map(function(t){return'<button type="button" class="tp" role="radio" aria-checked="'+(ftype===t)+'" data-t="'+t+'" style="--c:'+TY[t].c+'">'+t+'<small>'+avail(t)+' free</small></button>'}).join("")}
+function drawList(){
+  var mgr=S.mode==="mgr";
+  $("lt").textContent=mgr?"Team passes":"Your passes";
+  var base=S.reqs.filter(function(r){return mgr||r.who===ME});
+  $("tabs").innerHTML=["All","Pending","Approved","Rejected"].map(function(t){return'<button data-t="'+t+'" aria-pressed="'+(filter===t)+'">'+t+' '+(t==="All"?base.length:base.filter(function(r){return r.status===t}).length)+'</button>'}).join("");
+  var r=base.filter(function(x){return filter==="All"||x.status===filter}).sort(function(a,b){return b.id-a.id});
+  $("list").innerHTML=r.length?r.map(function(x){var n=days(x.from,x.to);
+    return'<article class="pass" style="--c:'+TY[x.type].c+'"><div class="stub"><b>'+n+'</b><span>'+(n===1?"day":"days")+'</span></div><div class="pb"><div class="t"><h3>'+(mgr?x.who+", ":"")+x.type+'</h3><span class="st '+x.status+'">'+x.status+'</span></div>'
+     +'<div class="d">'+fmt(x.from)+(x.from===x.to?"":" to "+fmt(x.to))+'</div><p class="w">'+x.why.replace(/</g,"&lt;")+'</p>'
+     +(x.status==="Pending"?'<div class="acts">'+(mgr?'<button class="a" data-a="Approved" data-id="'+x.id+'">Approve</button><button class="r" data-a="Rejected" data-id="'+x.id+'">Reject</button>':(x.who===ME?'<button data-a="cancel" data-id="'+x.id+'">Cancel</button>':""))+'</div>':"")+'</div></article>'}).join("")
+   :'<p class="empty">Nothing here yet. Passes with this status will show up here.</p>'}
+function drawMode(){
+  var m=S.mode==="mgr";
+  $("m-emp").setAttribute("aria-pressed",!m);$("m-mgr").setAttribute("aria-pressed",m);
+  $("title").textContent=m?"Your team’s time off, in one view.":"Pick your days. We’ll handle the rest.";
+  $("sub").textContent=m?"Dots on the calendar show everyone’s leave. Approve or reject below, and approved days come off the employee’s balance.":"Tap a start date and an end date on the calendar. Weekends are never counted, and your balance updates the moment a request is sent.";
+  drawCal();drawList()}
+function all(){drawRings();drawTypes();drawMode();calc()}
+
+function setErr(id,msg,el){$("e-"+id).textContent=msg||"";if(el)el.setAttribute("aria-invalid",msg?"true":"false")}
+function calc(){var a=$("from").value,b=$("to").value;
+  $("calc").textContent=(a&&b&&b>=a)?days(a,b)+(days(a,b)===1?" working day":" working days")+" will be counted.":"Weekends are not counted."}
+function syncInputs(){$("from").value=sel.from;$("to").value=sel.to;calc();drawCal()}
+function validate(){
+  var t=ftype,a=$("from").value,b=$("to").value,w=$("why").value.trim(),ok=true,m="";
+  setErr("type",t?"":"Choose a leave type.");if(!t)ok=false;
+  if(!a||!b)m="Pick a start and an end date.";else if(a<TODAY)m="Start date can’t be in the past.";else if(b<a)m="End date must be on or after the start date.";
+  if(!m){var n=days(a,b);
+    if(n===0)m="Those dates fall on a weekend, so no leave is needed.";
+    else if(t&&n>avail(t))m="You have "+avail(t)+" "+t+" days free, but this needs "+n+".";
+    else if(S.reqs.some(function(r){return r.who===ME&&r.status!=="Rejected"&&r.from<=b&&a<=r.to}))m="You already have leave booked on some of these dates."}
+  setErr("dates",m);$("from").setAttribute("aria-invalid",m?"true":"false");$("to").setAttribute("aria-invalid",m?"true":"false");if(m)ok=false;
+  m=w.length<5?"Add a short reason (at least 5 characters).":"";setErr("why",m,$("why"));if(m)ok=false;
+  return ok}
+
+$("days").onclick=function(e){var b=e.target.closest(".day");if(!b||b.disabled)return;var d=b.dataset.d;
+  if(!sel.from||sel.to){sel.from=d;sel.to=""}else if(d<sel.from){sel.to=sel.from;sel.from=d}else sel.to=d;
+  syncInputs()};
+$("from").onchange=function(){sel.from=this.value;if(sel.to&&sel.to<sel.from)sel.to="";syncInputs()};
+$("to").onchange=function(){sel.to=this.value;syncInputs()};
+$("pv").onclick=function(){cur.m--;if(cur.m<0){cur.m=11;cur.y--}drawCal()};
+$("nx").onclick=function(){cur.m++;if(cur.m>11){cur.m=0;cur.y++}drawCal()};
+$("types").onclick=function(e){var b=e.target.closest(".tp");if(!b)return;ftype=b.dataset.t;drawTypes()};
+$("f").onsubmit=function(e){e.preventDefault();if(!validate())return;
+  S.reqs.push({id:Date.now(),who:ME,type:ftype,from:$("from").value,to:$("to").value,why:$("why").value.trim(),status:"Pending"});
+  save();this.reset();sel={from:"",to:""};ftype="";all();toast("Request sent to your manager.")};
+$("tabs").onclick=function(e){var b=e.target.closest("button");if(!b)return;filter=b.dataset.t;drawList()};
+$("list").onclick=function(e){var b=e.target.closest("button");if(!b)return;var id=+b.dataset.id,a=b.dataset.a;
+  if(a==="cancel")S.reqs=S.reqs.filter(function(r){return r.id!==id});else S.reqs.forEach(function(r){if(r.id===id)r.status=a});
+  save();all();toast(a==="cancel"?"Request cancelled.":a==="Approved"?"Leave approved.":"Leave rejected.")};
+$("m-emp").onclick=function(){S.mode="emp";filter="All";save();drawMode()};
+$("m-mgr").onclick=function(){S.mode="mgr";filter="Pending";save();drawMode()};
+$("from").min=$("to").min=TODAY;
+all();
+</script>
+</body>
+</html>

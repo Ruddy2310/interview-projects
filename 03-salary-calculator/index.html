@@ -1,48 +1,133 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Salary & Payslip Calculator</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salary calculator and payslip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f5f6fa;--card:#fff;--ink:#14161f;--mute:#667085;--line:#e4e7ee;--acc:#4f46e5;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--soft:#eef0ff}
-@media(prefers-color-scheme:dark){:root{--bg:#0f1117;--card:#181b24;--ink:#eceef5;--mute:#98a2b3;--line:#2a2f3c;--soft:#22264a}}
-*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,"Segoe UI",sans-serif}
-.wrap{max-width:1040px;margin:0 auto;padding:24px 20px}h1{font-size:26px}.sub{color:var(--mute)}
-input,select,textarea,button{font:inherit;color:inherit}
-input,select,textarea{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);width:100%}
-button{cursor:pointer;border:0;border-radius:10px;padding:10px 16px;background:var(--acc);color:#fff;font-weight:600}
-button.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}.grid{display:grid;gap:14px}
-.pill{font-size:12px;padding:2px 10px;border-radius:99px;background:var(--soft);color:var(--acc);font-weight:600;display:inline-block}
-label{font-size:13px;color:var(--mute);display:block;margin-bottom:4px}
-@media(max-width:700px){.wrap{padding:16px 14px}}
-.two{grid-template-columns:1fr 1.3fr;align-items:start;margin-top:18px}.f{display:grid;gap:12px}.row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)}
-.net{font-size:34px;font-weight:700;color:var(--ok)}.stack{display:flex;height:14px;border-radius:9px;overflow:hidden;margin:12px 0}.stack i{display:block}.chk{display:flex;gap:8px;align-items:center}.chk input{width:auto}
-.note{font-size:12px;color:var(--mute);margin-top:12px}
-@media(max-width:800px){.two{grid-template-columns:1fr}}
-@media print{.noprint{display:none}body{background:#fff;color:#000}.card{border:0}}</style></head><body>
-<div class="wrap"><h1>💰 Salary & Payslip Calculator</h1><p class="sub">Enter annual CTC to see monthly breakup and an estimated in-hand salary.</p>
-<div class="grid two"><div class="card f noprint"><div><label>Annual CTC (₹)</label><input type="number" id="c" value="600000" min="0"></div>
-<div><label>Basic salary (% of CTC): <b id="bv">40</b>%</label><input type="range" id="bp" min="30" max="60" value="40"></div>
-<label class="chk"><input type="checkbox" id="cap" checked> Cap PF at ₹15,000 wage ceiling (₹1,800/month)</label>
-<button onclick="window.print()">🖨 Print payslip</button></div>
-<div class="card" id="o"></div></div></div>
+:root{--bg:#F6C945;--ink:#1A1500;--soft:#4E4208;--paper:#FFFDF6;
+--disp:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Consolas,monospace}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:500 1rem/1.55 var(--disp);-webkit-font-smoothing:antialiased;min-height:100vh}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:4px}
+.stage{max-width:1180px;margin:0 auto;padding:30px 28px 80px;display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:64px;align-items:start}
+.brand{font:700 1.15rem var(--disp);letter-spacing:-.01em;margin-bottom:46px;display:flex;align-items:center;gap:10px}
+.brand i{width:22px;height:22px;background:var(--ink);border-radius:50% 50% 50% 0}
+h1{font:800 clamp(2.6rem,6vw,5rem)/.96 var(--disp);letter-spacing:-.045em;max-width:9em;margin-bottom:34px}
+.net{font:800 clamp(3.6rem,10vw,7.4rem)/1 var(--disp);letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.per{font-size:1.2rem;margin:4px 0 14px}
+.of{color:var(--soft);max-width:30em;margin-bottom:22px}
+.flow{display:flex;height:18px;border-radius:99px;overflow:hidden;border:2px solid var(--ink);background:var(--paper)}
+.flow i{display:block;height:100%;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.lg{display:flex;gap:20px;flex-wrap:wrap;margin:12px 0 40px;font-size:.92rem;color:var(--soft)}
+.lg s{display:inline-block;width:12px;height:12px;border:2px solid var(--ink);margin-right:7px;border-radius:3px;text-decoration:none;vertical-align:-1px}
+form{border-top:3px solid var(--ink);padding-top:26px;display:grid;gap:22px}
+.row label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;margin-bottom:6px}
+.row label output{font:600 1rem var(--mono)}
+input[type=text],input[type=number],select{width:100%;background:rgba(255,255,255,.35);border:2px solid var(--ink);border-radius:12px;padding:11px 14px}
+input[type=range]{width:100%;accent-color:var(--ink);height:28px}
+.pre{position:relative}.pre span{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-weight:700}.pre input{padding-left:32px}
+.chk{display:flex;gap:12px;align-items:flex-start;font-weight:600}
+.chk input{width:20px;height:20px;margin-top:2px;accent-color:var(--ink)}
+.err{font-weight:700;margin-top:4px}
+.hint{color:var(--soft);font-size:.9rem;margin-top:4px}
+.rw{position:sticky;top:24px;filter:drop-shadow(0 22px 18px rgba(60,40,0,.32));transform:rotate(1.4deg)}
+.receipt{background:var(--paper);padding:38px 30px 44px;font:400 .93rem/1.5 var(--mono);color:#221C06;
+ -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/16px 51% repeat-x,conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) top/16px 51% repeat-x;
+ mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/16px 51% repeat-x,conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) top/16px 51% repeat-x}
+.receipt h2{font:700 1.45rem var(--disp);letter-spacing:-.02em;text-align:center}
+.receipt .c{text-align:center;color:#6B6130;font-size:.85rem}
+.receipt hr{border:0;border-top:2px dashed #BFB78F;margin:16px 0}
+.ln{display:flex;gap:8px;align-items:baseline;padding:3px 0}
+.ln i{flex:1;border-bottom:2px dotted #C9C19A;transform:translateY(-4px)}
+.ln.b{font-weight:600}
+.ln.big{font:800 1.5rem var(--disp);letter-spacing:-.03em;padding-top:4px}
+.ln.big i{border-bottom-style:solid;border-color:#221C06}
+.fine{font-size:.78rem;color:#6B6130;margin-top:14px;text-align:center}
+.prt{display:block;margin:30px auto 0;border:2px solid var(--ink);background:var(--ink);color:var(--bg);font-weight:700;padding:13px 28px;border-radius:999px;cursor:pointer}
+.prt:hover{background:none;color:var(--ink)}
+@media(max-width:940px){.stage{grid-template-columns:1fr;gap:44px;padding:22px 18px 60px}.rw{position:static;transform:none}.brand{margin-bottom:30px}}
+@media print{
+  body{background:#fff}.stage{display:block;padding:0;max-width:none}.stage>section:first-child,.prt{display:none!important}
+  .rw{position:static;transform:none;filter:none}.receipt{-webkit-mask:none;mask:none;max-width:480px;margin:0 auto;border:2px solid #221C06;padding:30px}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media(prefers-reduced-motion:reduce){.flow i{transition:none}}
+</style>
+</head>
+<body>
+<main class="stage">
+  <section>
+    <div class="brand"><i></i>Northwind Payroll</div>
+    <h1>What actually reaches your bank.</h1>
+    <div class="net" id="net" aria-live="polite">₹0</div>
+    <div class="per">in hand, every month</div>
+    <p class="of" id="of"></p>
+    <div class="flow" id="flow" role="img" aria-label="Share of gross pay that is take-home, PF and professional tax"></div>
+    <div class="lg"><span><s style="background:var(--ink)"></s>In hand</span><span><s style="background:repeating-linear-gradient(45deg,var(--ink) 0 2px,var(--bg) 2px 5px)"></s>Provident fund</span><span><s style="background:#fff"></s>Professional tax</span></div>
+
+    <form id="f" onsubmit="return false" novalidate>
+      <div class="row"><label for="ctc">Annual CTC<output id="ctcv"></output></label>
+        <div class="pre"><span>₹</span><input type="number" id="ctc" value="600000" min="0" step="10000" inputmode="numeric"></div>
+        <input type="range" id="ctcr" min="150000" max="3000000" step="10000" value="600000" aria-label="Annual CTC slider">
+        <div class="err" id="e-ctc"></div></div>
+      <div class="row"><label for="bp">Basic salary, % of CTC<output id="bpv"></output></label>
+        <input type="range" id="bp" min="30" max="60" step="1" value="40"><div class="hint">House rent allowance is taken as 50% of basic.</div></div>
+      <label class="chk" for="pf"><input type="checkbox" id="pf" checked>Deduct employee provident fund (12% of basic)</label>
+      <label class="chk" for="cap"><input type="checkbox" id="cap" checked>Cap PF at the ₹15,000 wage ceiling (₹1,800 a month)</label>
+      <div class="row"><label for="pt">Professional tax</label>
+        <select id="pt"><option value="gj">Gujarat slab</option><option value="none">Not applicable</option></select></div>
+      <div class="row"><label for="name">Name on payslip</label><input type="text" id="name" value="Rudra Soni"></div>
+    </form>
+  </section>
+
+  <section>
+    <div class="rw"><div class="receipt" id="rc"></div></div>
+    <button class="prt" id="pr" type="button">Print payslip</button>
+  </section>
+</main>
+
 <script>
 var $=function(i){return document.getElementById(i)};
-function inr(n){return"₹"+Math.round(n).toLocaleString("en-IN")}
+var inr=new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:0});
+var still=window.matchMedia("(prefers-reduced-motion:reduce)").matches,shown=0;
+function esc(s){return s.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function ptGJ(g){return g<6000?0:g<9000?80:g<12000?150:200}
 function calc(){
-  var ctc=+$("c").value||0,bp=+$("bp").value;$("bv").textContent=bp;
-  var m=ctc/12,basic=m*bp/100,hra=basic*0.5;
-  var pf=$("cap").checked?Math.min(basic*0.12,1800):basic*0.12;
-  var special=Math.max(0,m-basic-hra-pf),gross=basic+hra+special;
-  var pt=gross>12000?200:0,ded=pf+pt,net=gross-ded;
-  var rows=[["Basic",basic],["HRA (50% of basic)",hra],["Special allowance",special]];
-  var w=function(v){return(gross?v/gross*100:0)+"%"};
-  $("o").innerHTML='<span class="sub">Estimated monthly in-hand</span><div class="net">'+inr(net)+'</div>'+
-  '<div class="stack"><i style="width:'+w(basic)+';background:#4f46e5"></i><i style="width:'+w(hra)+';background:#16a34a"></i><i style="width:'+w(special)+';background:#d97706"></i></div>'+
-  rows.map(function(r){return'<div class="row"><span>'+r[0]+'</span><b>'+inr(r[1])+"</b></div>"}).join("")+
-  '<div class="row"><span><b>Gross monthly</b></span><b>'+inr(gross)+'</b></div>'+
-  '<div class="row"><span>Employee PF (12% of basic)</span><b>− '+inr(pf)+'</b></div>'+
-  '<div class="row"><span>Professional tax (Gujarat, est.)</span><b>− '+inr(pt)+'</b></div>'+
-  '<div class="row"><span><b>Net (before income tax)</b></span><b>'+inr(net)+'</b></div>'+
-  '<p class="note">Estimate only. Employer PF is part of CTC. Income tax (TDS), bonuses and other deductions are not included.</p>';
-}
-["c","bp","cap"].forEach(function(i){$(i).addEventListener("input",calc)});calc();
-</script></body></html>
+  var ctc=Math.max(0,parseFloat($("ctc").value)||0),bp=+$("bp").value;
+  var gross=Math.round(ctc/12),basic=Math.round(gross*bp/100),hra=Math.round(basic*.5),spl=gross-basic-hra;
+  var base=$("cap").checked?Math.min(basic,15000):basic,pf=$("pf").checked?Math.round(base*.12):0,pt=$("pt").value==="gj"?ptGJ(gross):0;
+  return{ctc:ctc,gross:gross,basic:basic,hra:hra,spl:spl,pf:pf,pt:pt,net:gross-pf-pt}}
+function line(a,b,c){return'<div class="ln '+(c||"")+'"><span>'+a+'</span><i></i><span>'+b+'</span></div>'}
+function count(to){
+  var from=shown,t0=null;shown=to;
+  if(still||from===to){$("net").textContent=inr.format(to);return}
+  cancelAnimationFrame(count.r);
+  (function step(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/450),e=1-Math.pow(1-k,3);
+    $("net").textContent=inr.format(Math.round(from+(to-from)*e));if(k<1)count.r=requestAnimationFrame(step)})(performance.now())}
+function draw(){
+  var c=calc(),bad=c.ctc<=0,g=c.gross||1;
+  $("e-ctc").textContent=bad?"Enter an annual CTC above ₹0.":"";
+  $("ctcv").textContent=inr.format(c.ctc);$("bpv").textContent=$("bp").value+"%";
+  count(c.net);
+  $("of").textContent=bad?"":"That is ₹"+Math.round(c.net/g*100)+" of every ₹100 you earn, before income tax. PF and professional tax take the rest.";
+  $("flow").innerHTML='<i style="width:'+c.net/g*100+'%;background:var(--ink)"></i><i style="width:'+c.pf/g*100+'%;background:repeating-linear-gradient(45deg,var(--ink) 0 2px,var(--bg) 2px 5px)"></i><i style="width:'+c.pt/g*100+'%;background:#fff"></i>';
+  var mo=new Date().toLocaleDateString("en-IN",{month:"long",year:"numeric"});
+  $("rc").innerHTML='<h2>Northwind Pvt. Ltd.</h2><p class="c">Payslip for '+mo+'</p><hr>'
+   +'<div class="ln b"><span>'+(esc($("name").value.trim())||"Employee")+'</span></div>'
+   +'<div class="ln"><span>Annual CTC</span><i></i><span>'+inr.format(c.ctc)+'</span></div><hr>'
+   +line("Basic",inr.format(c.basic))+line("House rent",inr.format(c.hra))+line("Special allowance",inr.format(c.spl))+line("Gross pay",inr.format(c.gross),"b")+'<hr>'
+   +line("Provident fund","- "+inr.format(c.pf))+line("Professional tax","- "+inr.format(c.pt))+'<hr>'
+   +line("In hand",inr.format(c.net),"big")
+   +'<p class="fine">An estimate. Income tax (TDS) and employer contributions are not included.</p>'}
+["ctc","bp","pf","cap","pt","name"].forEach(function(i){$(i).oninput=function(){if(i==="ctc"){var v=Math.min(3000000,Math.max(150000,+$("ctc").value||150000));$("ctcr").value=v}draw()};$(i).onchange=draw});
+$("ctcr").oninput=function(){$("ctc").value=this.value;draw()};
+$("pr").onclick=function(){window.print()};
+draw();
+</script>
+</body>
+</html>

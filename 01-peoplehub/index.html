@@ -1,49 +1,153 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PeopleHub — Employee Directory</title>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PeopleHub | Who’s who at Northwind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f5f6fa;--card:#fff;--ink:#14161f;--mute:#667085;--line:#e4e7ee;--acc:#4f46e5;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--soft:#eef0ff}
-@media(prefers-color-scheme:dark){:root{--bg:#0f1117;--card:#181b24;--ink:#eceef5;--mute:#98a2b3;--line:#2a2f3c;--soft:#22264a}}
-*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,"Segoe UI",sans-serif}
-.wrap{max-width:1040px;margin:0 auto;padding:24px 20px}h1{font-size:26px}.sub{color:var(--mute)}
-input,select,textarea,button{font:inherit;color:inherit}
-input,select,textarea{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);width:100%}
-button{cursor:pointer;border:0;border-radius:10px;padding:10px 16px;background:var(--acc);color:#fff;font-weight:600}
-button.g{background:transparent;color:var(--ink);border:1px solid var(--line)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}.grid{display:grid;gap:14px}
-.pill{font-size:12px;padding:2px 10px;border-radius:99px;background:var(--soft);color:var(--acc);font-weight:600;display:inline-block}
-label{font-size:13px;color:var(--mute);display:block;margin-bottom:4px}
-@media(max-width:700px){.wrap{padding:16px 14px}}
-.stats{grid-template-columns:repeat(3,1fr);margin:18px 0}.stats b{font-size:28px;display:block}.bar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:16px}
-.cards{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}.av{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;margin-bottom:10px}
-.cards .card{cursor:pointer;transition:.2s}.cards .card:hover{transform:translateY(-3px);border-color:var(--acc)}
-dialog{border:0;border-radius:18px;padding:24px;max-width:380px;width:92%;background:var(--card);color:var(--ink)}dialog::backdrop{background:#0008}
-.st-Active{color:var(--ok)}.st-Remote{color:var(--acc)}.st-Leave{color:var(--warn)}
-@media(max-width:700px){.bar{grid-template-columns:1fr}}</style></head><body>
-<div class="wrap"><h1>👥 PeopleHub</h1><p class="sub">Employee directory · search, filter, sort</p>
-<div class="grid stats" id="st"></div>
-<div class="bar"><input id="q" placeholder="Search name, role or city"><select id="d"></select><select id="s"><option value="n">Sort: Name</option><option value="r">Sort: Role</option><option value="c">Sort: City</option></select></div>
-<div class="grid cards" id="g"></div><p class="sub" id="none" hidden>No employees match your search.</p></div>
-<dialog id="m"></dialog>
+:root{--bg:#15332A;--ink:#F3F0E7;--mute:#A6BBB0;--line:#2E5547;
+--serif:"Instrument Serif",Georgia,serif;--sans:"Onest","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:400 1rem/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid #F2C94C;outline-offset:3px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px 90px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:24px 0}
+.brand{display:flex;align-items:center;gap:12px;font:400 1.7rem var(--serif)}
+.brand svg{width:30px;height:30px;border-radius:7px}
+.top span{color:var(--mute);font-size:.95rem}
+h1{font:400 clamp(3.2rem,10vw,8rem)/.92 var(--serif);letter-spacing:-.03em;margin:46px 0 18px;max-width:9em}
+.count{color:var(--mute);font-size:1.15rem;margin-bottom:44px}
+.bar{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-end;margin-bottom:22px}
+.search{flex:1 1 320px}
+.search input{width:100%;background:none;border:0;border-bottom:2px solid var(--line);padding:12px 0;font-size:1.5rem;font-family:var(--serif);outline-offset:6px}
+.search input::placeholder{color:#6F8A7D}
+.search input:focus{border-color:var(--ink)}
+.seg{display:flex;gap:4px}
+.seg span{color:var(--mute);align-self:center;margin-right:8px;font-size:.92rem}
+.seg button,.chip{border:1px solid var(--line);background:none;border-radius:999px;padding:8px 18px;cursor:pointer;font-weight:500;color:var(--mute)}
+.seg button:hover,.chip:hover{color:var(--ink);border-color:var(--ink)}
+.seg button[aria-pressed="true"],.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:54px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:40px 24px}
+.tile{display:block;width:100%;text-align:left;background:none;border:0;cursor:pointer;padding:0}
+.tile svg{width:100%;aspect-ratio:1;display:block;border-radius:14px;transition:transform .3s cubic-bezier(.3,1.4,.5,1)}
+.tile:hover svg,.tile:focus-visible svg{transform:rotate(-2.5deg) scale(1.03)}
+.tile h2{font:400 1.75rem/1.1 var(--serif);margin:14px 0 2px}
+.tile p{font-size:.97rem}
+.tile small{color:var(--mute);font-size:.9rem}
+.go .tile{animation:in .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--n)*45ms)}
+@keyframes in{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.empty{grid-column:1/-1;padding:60px 0}
+.empty b{display:block;font:400 2.6rem var(--serif);margin-bottom:6px}
+.empty button{margin-top:18px}
+dialog{border:0;padding:0;background:transparent;max-width:none;overflow:visible;margin:auto}
+dialog::backdrop{background:rgba(8,20,16,.78)}
+.badge{width:min(340px,86vw);background:var(--ink);color:#15332A;border-radius:22px;padding:38px 18px 20px;position:relative;transition:transform .18s ease-out;box-shadow:0 40px 80px -20px rgba(0,0,0,.6)}
+.badge:before{content:"";position:absolute;top:13px;left:50%;width:70px;height:12px;border-radius:99px;background:#15332A;transform:translateX(-50%)}
+.badge .av{width:100%;aspect-ratio:1;border-radius:12px;display:block}
+.badge h2{font:400 2.4rem/1 var(--serif);margin:18px 0 4px}
+.badge .role{color:#456055;margin-bottom:16px}
+.badge dl div{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid #C9C6B8;font-size:.95rem}
+.badge dt{color:#5A7367}.badge dd{font-weight:500;text-align:right}
+.badge a{color:inherit}
+.badge .code{margin-top:14px}
+.badge .code svg{width:100%;height:42px;display:block}
+.close{display:block;margin:18px auto 0;border:1px solid #5E7D6F;background:none;color:var(--ink);border-radius:999px;padding:9px 26px;cursor:pointer;font-weight:500}
+.close:hover{background:var(--ink);color:var(--bg)}
+@media(max-width:640px){.wrap{padding:0 18px 70px}.top span{display:none}.grid{grid-template-columns:repeat(2,1fr);gap:30px 14px}.tile h2{font-size:1.4rem}}
+@media(prefers-reduced-motion:reduce){.go .tile{animation:none}.tile svg,.badge{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><rect width="50" height="50" fill="#F26B4F"/><circle cx="75" cy="25" r="25" fill="#F2C94C"/><path d="M0 100V50A50 50 0 0 1 50 100Z" fill="#8EC5E8"/><rect x="50" y="50" width="50" height="50" fill="#C3A9F2"/></svg>
+      PeopleHub
+    </div>
+    <span>Northwind Pvt. Ltd., Rajkot</span>
+  </header>
+
+  <h1>Who’s who at Northwind.</h1>
+  <p class="count" id="count" aria-live="polite"></p>
+
+  <div class="bar">
+    <div class="search"><input id="q" type="search" placeholder="Type a name, role or city" aria-label="Search people" autocomplete="off"></div>
+    <div class="seg" role="group" aria-label="Sort by"><span>Sort by</span>
+      <button data-s="name" aria-pressed="true">Name</button><button data-s="role" aria-pressed="false">Role</button><button data-s="city" aria-pressed="false">City</button>
+    </div>
+  </div>
+  <div class="chips" id="chips" role="group" aria-label="Filter by city"></div>
+  <main class="grid go" id="grid"></main>
+</div>
+<dialog id="dlg" aria-label="Employee badge"></dialog>
+
 <script>
-var P="Aarav Mehta|Engineering|Frontend Developer|Rajkot|Active|aarav@peoplehub.demo;Diya Patel|Design|UI Designer|Ahmedabad|Remote|diya@peoplehub.demo;Kabir Shah|Engineering|Backend Developer|Rajkot|Active|kabir@peoplehub.demo;Ishita Joshi|HR|HR Manager|Surat|Active|ishita@peoplehub.demo;Rohan Desai|Sales|Sales Executive|Vadodara|On Leave|rohan@peoplehub.demo;Meera Trivedi|Design|UX Researcher|Rajkot|Active|meera@peoplehub.demo;Vivaan Gohil|Support|Support Lead|Bhuj|Active|vivaan@peoplehub.demo;Anaya Parmar|Engineering|QA Engineer|Rajkot|Remote|anaya@peoplehub.demo;Dev Solanki|Sales|Account Manager|Surat|Active|dev@peoplehub.demo;Riya Vyas|HR|Recruiter|Ahmedabad|On Leave|riya@peoplehub.demo;Arjun Bhatt|Engineering|WordPress Developer|Rajkot|Active|arjun@peoplehub.demo;Kiara Dave|Support|Support Agent|Rajkot|Active|kiara@peoplehub.demo;Yash Raval|Design|Graphic Designer|Vadodara|Remote|yash@peoplehub.demo;Nisha Kothari|Sales|Sales Manager|Ahmedabad|Active|nisha@peoplehub.demo";
-var E=P.split(";").map(function(x){var a=x.split("|");return{n:a[0],d:a[1],r:a[2],c:a[3],s:a[4],e:a[5]}});
-var q=document.getElementById("q"),d=document.getElementById("d"),s=document.getElementById("s"),g=document.getElementById("g"),m=document.getElementById("m");
-var depts=["All departments"].concat(E.map(function(e){return e.d}).filter(function(v,i,a){return a.indexOf(v)==i}));
-d.innerHTML=depts.map(function(x,i){return'<option value="'+(i?x:"")+'">'+x+"</option>"}).join("");
-function col(n){var h=0;for(var i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))%360;return"hsl("+h+",55%,45%)"}
-function ini(n){return n.split(" ").map(function(w){return w[0]}).join("")}
-function cls(s){return"st-"+s.split(" ")[0]}
+var P=[["Aarav Mehta","Frontend Engineer","Rajkot"],["Diya Patel","Product Designer","Ahmedabad"],["Kabir Shah","Engineering Manager","Pune"],["Ananya Iyer","Product Manager","Bengaluru"],["Rohan Joshi","Backend Engineer","Rajkot"],["Meera Desai","HR Business Partner","Surat"],["Vivaan Kapoor","Account Executive","Mumbai"],["Isha Trivedi","Brand Designer","Vadodara"],["Arjun Nair","Financial Analyst","Kochi"],["Saanvi Rao","QA Engineer","Hyderabad"],["Yash Bhatt","Sales Lead","Ahmedabad"],["Tara Menon","Recruiter","Bengaluru"],["Dev Chauhan","Data Analyst","Rajkot"],["Nisha Verma","Payroll Specialist","Delhi"],["Karan Malhotra","DevOps Engineer","Pune"],["Riya Sharma","UX Researcher","Mumbai"],["Harsh Vyas","Support Lead","Rajkot"],["Pooja Kulkarni","Content Writer","Pune"]]
+.map(function(r){var n=r[0].toLowerCase().split(" ");return{name:r[0],role:r[1],city:r[2],email:n[0]+"."+n[1]+"@northwind.in"}});
+var COL=["#F26B4F","#F2C94C","#8EC5E8","#C3A9F2"];
+var st={q:"",city:"All",sort:"name"},first=true;
+var $=function(i){return document.getElementById(i)};
+
+function rng(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}
+  return function(){h+=0x6D2B79F5;var t=h;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+function quarter(x,y,o){var a=[[x,y,x+50,y,x,y+50,1],[x+50,y,x,y,x+50,y+50,0],[x+50,y+50,x+50,y,x,y+50,0],[x,y+50,x,y,x+50,y+50,1]][o];
+  return'M'+a[0]+','+a[1]+'L'+a[2]+','+a[3]+'A50,50 0 0 '+a[6]+' '+a[4]+','+a[5]+'Z'}
+function avatar(name,cls){
+  var r=rng(name),g="";
+  for(var i=0;i<4;i++){
+    var x=(i%2)*50,y=Math.floor(i/2)*50,b=Math.floor(r()*4),f=(b+1+Math.floor(r()*3))%4,t=Math.floor(r()*5),o=Math.floor(r()*4);
+    g+='<rect x="'+x+'" y="'+y+'" width="50" height="50" fill="'+COL[b]+'"/>';
+    if(t===0)g+='<circle cx="'+(x+25)+'" cy="'+(y+25)+'" r="25" fill="'+COL[f]+'"/>';
+    else if(t===1)g+='<rect x="'+(x+9)+'" y="'+(y+9)+'" width="32" height="32" fill="'+COL[f]+'"/>';
+    else if(t<4)g+='<path d="'+quarter(x,y,o)+'" fill="'+COL[f]+'"/>';
+    else g+='<circle cx="'+(x+25)+'" cy="'+(y+25)+'" r="10" fill="'+COL[f]+'"/>';
+  }
+  return'<svg class="'+(cls||"")+'" viewBox="0 0 100 100" role="img" aria-label="Generated avatar for '+name+'">'+g+'</svg>'}
+function barcode(name){var r=rng(name+"|b"),x=0,s="";
+  for(var i=0;i<38;i++){var w=1+Math.floor(r()*3);if(i%2===0)s+='<rect x="'+x+'" y="0" width="'+w+'" height="42" fill="#15332A"/>';x+=w+(i%2?0:.6)}
+  return'<svg viewBox="0 0 '+Math.ceil(x)+' 42" preserveAspectRatio="none" aria-hidden="true">'+s+'</svg>'}
+function empNo(name){var h=0;for(var i=0;i<name.length;i++)h=(h*31+name.charCodeAt(i))%9000;return"NW-"+(1000+h)}
+
+function list(){
+  var q=st.q.trim().toLowerCase();
+  return P.filter(function(p){return(st.city==="All"||p.city===st.city)&&(!q||(p.name+" "+p.role+" "+p.city).toLowerCase().indexOf(q)>-1)})
+   .sort(function(a,b){return a[st.sort].localeCompare(b[st.sort])||a.name.localeCompare(b.name)})}
+function cities(){var c={};P.forEach(function(p){c[p.city]=1});return["All"].concat(Object.keys(c).sort())}
+function drawChips(){$("chips").innerHTML=cities().map(function(c){return'<button class="chip" data-c="'+c+'" aria-pressed="'+(st.city===c)+'">'+c+'</button>'}).join("")}
 function draw(){
-  var t=q.value.toLowerCase(),k=s.value;
-  var L=E.filter(function(e){return(!d.value||e.d==d.value)&&(e.n+e.r+e.c).toLowerCase().indexOf(t)>-1});
-  L.sort(function(a,b){return a[k].localeCompare(b[k])});
-  g.innerHTML=L.map(function(e){return'<div class="card" data-i="'+E.indexOf(e)+'"><div class="av" style="background:'+col(e.n)+'">'+ini(e.n)+'</div><b>'+e.n+'</b><div class="sub">'+e.r+'</div><div style="margin:8px 0"><span class="pill">'+e.d+'</span></div><small class="'+cls(e.s)+'">● '+e.s+' · '+e.c+'</small></div>'}).join("");
-  document.getElementById("none").hidden=L.length>0;
-  document.getElementById("st").innerHTML=[["Showing",L.length],["Departments",depts.length-1],["On leave",L.filter(function(e){return e.s=="On Leave"}).length]].map(function(x){return'<div class="card"><b>'+x[1]+'</b><span class="sub">'+x[0]+"</span></div>"}).join("");
-}
-[q,d,s].forEach(function(el){el.addEventListener("input",draw)});
-g.addEventListener("click",function(ev){var c=ev.target.closest("[data-i]");if(!c)return;var e=E[c.dataset.i];
-  m.innerHTML='<div class="av" style="background:'+col(e.n)+'">'+ini(e.n)+'</div><h2>'+e.n+'</h2><p class="sub">'+e.r+' · '+e.d+'</p><p style="margin:12px 0">📍 '+e.c+'<br>✉ '+e.e+'<br><span class="'+cls(e.s)+'">● '+e.s+'</span></p><button onclick="m.close()">Close</button>';m.showModal()});
-m.addEventListener("click",function(ev){if(ev.target==m)m.close()});
-draw();
-</script></body></html>
+  var r=list();
+  $("count").textContent=r.length===P.length?P.length+" people in "+(cities().length-1)+" cities. Tap anyone for their badge.":r.length+" of "+P.length+" people match.";
+  $("grid").innerHTML=r.length?r.map(function(p,i){
+    return'<button class="tile" style="--n:'+i+'" data-i="'+P.indexOf(p)+'">'+avatar(p.name)+'<h2>'+p.name+'</h2><p>'+p.role+'</p><small>'+p.city+'</small></button>'}).join("")
+   :'<div class="empty"><b>Nobody by that name.</b>Try fewer letters, or another city.<br><button class="chip" id="clr">Clear filters</button></div>';
+  if(first){first=false}else{$("grid").classList.remove("go")}
+  var c=$("clr");if(c)c.onclick=function(){st.q="";st.city="All";$("q").value="";drawChips();draw()}}
+
+var still=window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+function open(i){var p=P[i];
+  $("dlg").innerHTML='<div class="badge" id="bd">'+avatar(p.name,"av")+'<h2>'+p.name+'</h2><div class="role">'+p.role+'</div><dl>'
+   +'<div><dt>Office</dt><dd>'+p.city+'</dd></div><div><dt>Email</dt><dd><a href="mailto:'+p.email+'">'+p.email+'</a></dd></div><div><dt>Staff no.</dt><dd>'+empNo(p.name)+'</dd></div></dl>'
+   +'<div class="code">'+barcode(p.name)+'</div></div><button class="close" id="cl">Close</button>';
+  $("dlg").showModal();
+  var b=$("bd");
+  if(!still){b.onpointermove=function(e){var r=b.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    b.style.transform="perspective(900px) rotateY("+x*16+"deg) rotateX("+-y*16+"deg)"};
+    b.onpointerleave=function(){b.style.transform=""}}
+  $("cl").onclick=function(){$("dlg").close()}}
+
+$("q").oninput=function(){st.q=this.value;draw()};
+document.querySelector(".seg").onclick=function(e){var b=e.target.closest("button");if(!b)return;st.sort=b.dataset.s;
+  this.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});draw()};
+$("chips").onclick=function(e){var b=e.target.closest(".chip");if(!b)return;st.city=b.dataset.c;drawChips();draw()};
+$("grid").onclick=function(e){var b=e.target.closest(".tile");if(b)open(+b.dataset.i)};
+$("dlg").onclick=function(e){if(e.target===this)this.close()};
+document.addEventListener("keydown",function(e){if(e.key==="/"&&document.activeElement.tagName!=="INPUT"&&!$("dlg").open){e.preventDefault();$("q").focus()}});
+drawChips();draw();
+</script>
+</body>
+</html>
